@@ -1,73 +1,75 @@
 <template lang="html">
   <div class="gift" >
+    <header class="gift-header">
+      <h1>礼物</h1>
+    </header>
 
-    <div class="category">
-      <swiper dots-position="center" dots-class="category-dot">
-        <swiper-item v-for="category in categories">
-          <flexbox wrap="wrap" :gutter="0">
-            <flexbox-item :span="1/5" v-for="item in category">
+    <section class="gift-category">
+      <swipe :auto="0">
+        <swipe-item v-for="category in categories">
+          <a href="#" class="container">
+            <div v-for="item in category" class="item">
               <svg class="icon" aria-hidden="true">
                 <use v-bind="{'xlink:href':'#icon-' + item.id}"></use>
               </svg>
               <span>{{ item.name }}</span>
-            </flexbox-item>
-          </flexbox>
-        </swiper-item>
-      </swiper>
+            </div>
+          </a>
+        </swipe-item>
+      </swipe>
+    </section>
+
+    <div class="gift-tag">
+      <div class="container">
+        <a href="#" v-for="item in tags" class="item">{{ item.name }}</a>
+      </div>
     </div>
 
-    <div class="tag">
-      <swiper :show-dots="false" height="40px">
-        <swiper-item v-for="tag in tags">
-          <flexbox :gutter="0" align="center">
-            <flexbox-item :span="1/5" v-for="item in tag">
-              {{ item.name }}
-            </flexbox-item>
-          </flexbox>
-        </swiper-item>
-      </swiper>
-    </div>
+    <section
+    v-infinite-scroll="loadMore"
+    infinite-scroll-disabled="loading"
+    infinite-scroll-distance="60"
+    >
 
-
-    <div class="issue" v-for="item in issues" >
+      <div class="gift-issue" v-for="item in issues" >
       <div class="issue-item" >
         <div class="title">
-          {{ item.title}}
+          <h1>{{ item.title}}</h1>
         </div>
-        <divider>
-          <a href="" class="tag">{{ item.tag }}</a>
-          <span>{{ item.date }}</span>
-        </divider>
+        <div class="subtitle">
+          <span class="line"></span>
+          <div class="text">
+            <a href="#" class="tag">#{{ item.tag }}</a>
+            <span class="date">{{ item.date }}</span>
+          </div>
+          <span class="line"></span>
+        </div>
 
-        <swiper height="400px" :show-dots="false">
-          <swiper-item class="larger">
-            <img :src="item.commodityImg" alt="" />
+
+        <a class="larger" href="#">
+          <img :src="item.commodityImg" alt="" />
+          <div class="desc">
+            <span class="title">{{ item.commodityTitle }}</span>
+            <span class="price">￥{{ item.commodityPrice }}</span>
+          </div>
+        </a>
+
+        <div class="tiny-body">
+          <a class="tiny" href="#" v-for="tiny in item.tinyList">
+            <img :src="tiny.commodityImg" alt="" />
             <div class="desc">
-              <span class="title">{{ item.commodityTitle }}</span>
-              <span class="price">￥{{ item.commodityPrice }}</span>
+              <span class="title">{{ tiny.commodityTitle }}</span>
+              <span class="price">￥{{ tiny.commodityPrice }}</span>
             </div>
-          </swiper-item>
-        </swiper>
-
-        <swiper height="200px" :show-dots="false">
-          <swiper-item v-for="tiny in item.tinyList" class="tiny">
-            <flexbox  :gutter="10">
-              <flexbox-item v-for="item in tiny">
-                <img :src="item.commodityImg" alt="" />
-                <div class="desc">
-                  <span class="title">{{ item.commodityTitle }}</span>
-                  <span class="price">￥{{ item.commodityPrice }}</span>
-                </div>
-              </flexbox-item>
-            </flexbox>
-          </swiper-item>
-        </swiper>
+          </a>
+        </div>
 
       </div>
 
     </div>
+    </section>
+    <p class="loadmore" v-show="loading"><span>正在努力加载中...</span></p>
 
-    <load-more :tip="tip" :show-loading="busy" @click.native="loadMore"></load-more>
 
 
 
@@ -77,18 +79,18 @@
 </template>
 
 <script>
-import {  Swiper, SwiperItem, Flexbox, FlexboxItem, Divider, XButton,LoadMore } from 'vux'
+
+import 'vue-swipe/dist/vue-swipe.css'
+import { Swipe, SwipeItem } from 'vue-swipe'
 
 
 
-var count = 0
 export default {
   name: 'Gift',
   data () {
     return {
-      tip: '点击加载更多',
-      busy: false,
-      allLoaded: false,
+
+      loading: false,
       categories: [
         [{ id: 'liyuxianhua', name: '礼遇鲜花'},
         { id: 'xiezibaobao', name: '鞋子包包'},
@@ -110,15 +112,17 @@ export default {
         { id: 'wenjuqiapian', name: '文具卡片'}]
       ],
       tags: [
-        [{ id: 1, name: '表白'},
-        { id: 1, name: '浪漫'},
         { id: 1, name: '表白'},
         { id: 1, name: '浪漫'},
-        { id: 1, name: '表白'}],
-        [{ id: 1, name: '浪漫'},
-        { id: 1, name: '表白'},
+        { id: 1, name: '表白浪漫'},
         { id: 1, name: '浪漫'},
-        { id: 1, name: '表白'}],
+        { id: 1, name: '表白'},
+        { id: 1, name: '浪漫浪漫'},
+        { id: 1, name: '表白'},
+        { id: 1, name: '浪漫浪漫'},
+        { id: 1, name: '表白'},
+        { id: 1, name: '浪漫浪漫'},
+        { id: 1, name: '表白'}
       ],
       issues: [
         {
@@ -132,49 +136,97 @@ export default {
           commodityTitle: "井口满天星花束",
           commodityPrice: "198",
           tinyList: [
-            [{
+            {
               commodityId: "3",
               commodityTitle: "唯美清新手工发箍",
               commodityPrice: "33",
-              commodityImg: null
+              commodityImg: ''
             },
             {
               commodityId: "6",
               commodityTitle: "春暖花开生日蛋糕",
               commodityPrice: "218",
-              commodityImg: null
-            }],
-            [{
-              commodityId: "7",
-              commodityTitle: "春暖花开生日蛋糕2",
-              commodityPrice: "300",
-              commodityImg: null
+              commodityImg: ''
             },
             {
               commodityId: "7",
               commodityTitle: "春暖花开生日蛋糕2",
               commodityPrice: "300",
-              commodityImg: null
-            }],
-          ]}
+              commodityImg: ''
+            }]
+          },
+          {
+            campaignId: 2,
+            title: "第二期 浪漫礼物送给她，天天都过情人节",
+            tag: "表白",
+            tagId: "2",
+            date: "2016-12-13 00:00:00",
+            commodityId: "4",
+            commodityImg: null,
+            commodityTitle: "井口满天星花束",
+            commodityPrice: "198",
+            tinyList: [
+              {
+                commodityId: "3",
+                commodityTitle: "唯美清新手工发箍",
+                commodityPrice: "33",
+                commodityImg: ''
+              },
+              {
+                commodityId: "6",
+                commodityTitle: "春暖花开生日蛋糕",
+                commodityPrice: "218",
+                commodityImg: ''
+              },
+              {
+                commodityId: "7",
+                commodityTitle: "春暖花开生日蛋糕2",
+                commodityPrice: "300",
+                commodityImg: ''
+              }]
+            },
+            {
+              campaignId: 2,
+              title: "第二期 浪漫礼物送给她，天天都过情人节",
+              tag: "表白",
+              tagId: "2",
+              date: "2016-12-13 00:00:00",
+              commodityId: "4",
+              commodityImg: null,
+              commodityTitle: "井口满天星花束",
+              commodityPrice: "198",
+              tinyList: [
+                {
+                  commodityId: "3",
+                  commodityTitle: "唯美清新手工发箍",
+                  commodityPrice: "33",
+                  commodityImg: ''
+                },
+                {
+                  commodityId: "6",
+                  commodityTitle: "春暖花开生日蛋糕",
+                  commodityPrice: "218",
+                  commodityImg: ''
+                },
+                {
+                  commodityId: "7",
+                  commodityTitle: "春暖花开生日蛋糕2",
+                  commodityPrice: "300",
+                  commodityImg: ''
+                }]
+              }
       ]
     }
   },
   components: {
-    Swiper,
-    SwiperItem,
-    Flexbox,
-    FlexboxItem,
-    Divider,
-    XButton,
-    LoadMore
+    Swipe,
+    SwipeItem
   },
   methods: {
     loadMore() {
-      this.busy = true
-      this.tip = '努力加载中...'
+      this.loading = true
+      console.log("start.....")
       setTimeout(() => {
-
         var data = {
           campaignId: 2,
           title: "第二期 浪漫礼物送给她，天天都过情人节",
@@ -182,40 +234,32 @@ export default {
           tagId: "2",
           date: "2016-12-13 00:00:00",
           commodityId: "4",
-          commodityImg: null,
+          commodityImg: '',
           commodityTitle: "井口满天星花束",
           commodityPrice: "198",
           tinyList: [
-            [{
+            {
               commodityId: "3",
               commodityTitle: "唯美清新手工发箍",
               commodityPrice: "33",
-              commodityImg: null
+              commodityImg: ''
             },
             {
               commodityId: "6",
               commodityTitle: "春暖花开生日蛋糕",
               commodityPrice: "218",
-              commodityImg: null
-            }],
-            [{
-              commodityId: "7",
-              commodityTitle: "春暖花开生日蛋糕2",
-              commodityPrice: "300",
-              commodityImg: null
+              commodityImg: ''
             },
             {
               commodityId: "7",
               commodityTitle: "春暖花开生日蛋糕2",
               commodityPrice: "300",
-              commodityImg: null
-            }],
+              commodityImg: ''
+            }
           ]}
         this.issues.push(data)
-        this.tip = '加载更多'
-        this.busy = false
-
-
+        this.loading = false
+        console.log("end.....")
       }, 1500)
 
     }
@@ -229,106 +273,152 @@ export default {
 
 <style lang="less">
 .gift {
-  margin-bottom: 50px;
-  height: 100%;
+  margin-bottom: 120px;
 }
-.category {
+.gift-header {
+  background-color: #ddb63f;
+  height: 88px;
+  text-align: center;
+  color: #fff;
+}
+.gift-header > h1 {
+  font-size: 36px;
+  height: 88px;
+  line-height: 88px;
+}
+
+
+.gift-category {
   background-color: white;
+  height: 354px;
+  font-size: 24px;
 }
-.category svg {
-  width: 35px;
-  height: 35px;
+.gift-category .container {
+  display: flex;
+  flex-wrap: wrap;
+
 }
-.category .vux-flexbox-item {
+.gift-category .item {
+  flex-basis: 20%;
+  margin-top: 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
-  font-size: 12px;
-  padding-top: 18px;
-
+  color: #666;
 }
-.category .vux-flexbox-item > span {
-  padding-top: 5px;
-}
-.vux-slider > .vux-indicator.category-dot > a > .vux-icon-dot.active {
-  background-color: #ddb63f;
+.gift-category .item svg {
+  width: 90px;
+  height: 90px;
 }
 
-.tag {
+
+.gift-tag {
   background-color: white;
-  margin-top: 10px;
-  text-align: center;
-  font-size: 14px;
-}
-.tag .vux-flexbox {
-  height: 100%;
-}
-.tag .vux-flexbox-item {
-  text-align: center;
-  color: #ddb63f;
-}
-
-.issue {
-  margin-top: 10px;
-  background-color: white;
-  padding: 10px;
-}
-.issue img {
-  background-color: #ccc;
-}
-.issue .issue-item {
   margin-top: 20px;
+  font-size: 24px;
+  padding: 20px 28px;
+
 }
-.issue .issue-item .title {
-  text-align: center;
-  font-size: 14px;
-  //padding-top: 10px;
-}
-.issue .issue-item .vux-divider {
-  font-size: 12px;
-}
-.issue .issue-item .vux-divider .tag {
-  color: #ddb63f;
-  padding-right: 10px;
-}
-.issue .issue-item .vux-swiper-item {
+.gift-tag .container {
   display: flex;
-  flex-direction: column;
+  white-space: nowrap;
+  overflow-x: auto;
+  align-items: center;
 }
-.issue .issue-item .vux-flexbox {
-  flex-basis: auto;
+.gift-tag .item {
+  color: #ddb63f;
+}
+.gift-tag .item:not(:last-child) {
+  margin-right: 30px;
 }
 
-.issue .issue-item .vux-swiper-item.larger > img {
-  height: 380px;
-  width: 100%;
+
+.gift-issue {
+  margin-top: 20px;
+  background-color: white;
+  padding: 10px 0;
+  font-size: 24px;
+  padding-top: 39px;
+  text-align: center;
+
 }
-.issue .issue-item .vux-swiper-item.larger > .desc,
-.issue .issue-item .vux-swiper-item.tiny .desc {
+.gift-issue .issue-item {
+  position: relative;
+}
+.gift-issue .subtitle {
+  display: flex;
+  align-items: center;
+  color: #999;
+  padding: 7px 40px;
+
+}
+.gift-issue .subtitle > * {
+  flex-grow: 1;
+}
+.gift-issue .line {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 0;
+  border: 1px solid #ddd;
+}
+.gift-issue .subtitle .tag {
+  color: #ddb63f;
+}
+
+.gift-issue .larger {
+  display: flex;
+  padding: 10px 30px 10px;
+  flex-direction: column;
+  font-size: 26px;
+}
+.gift-issue .larger > img {
+  height: 600px;
+  background-color: #ccc;
+  width: 100%;
+
+}
+.gift-issue .tiny > img {
+ background-color: #ccc;
+ height: 200px;
+ width: 220px;
+}
+.gift-issue .larger .desc {
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
-  padding: 5px 0;
-}
-.issue .issue-item .vux-swiper-item.larger > .desc > .price {
-  color: red;
+  padding-top: 10px;
 }
 
-.issue .issue-item .vux-swiper-item.tiny  img {
-  height: 180px;
-  width: 100%;
-}
+.gift-issue .tiny-body {
+  display: flex;
+  padding: 10px 0px 10px 30px;
 
-.issue .issue-item .vux-swiper-item.tiny .vux-flexbox-item {
+}
+.gift-issue .tiny {
+  height: 340px;
+  margin-right: 12px;
+  width: 222px;
+}
+.gift-issue .tiny .desc {
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
+  text-align: left;
 }
-
-
-.issue .issue-item .vux-swiper-item.tiny .desc > .price {
+.gift-issue .tiny .desc .title {
+  text-overflow: ellipsis;
+}
+.gift-issue .larger .desc > .price, .gift-issue .tiny .desc > .price {
   color: red;
 }
+
+.loadmore {
+  color: #999;
+  text-align: center;
+  line-height: 3;
+  font-size: 26px;
+}
+
 
 
 
