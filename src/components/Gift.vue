@@ -19,20 +19,25 @@
       </swipe>
     </section>
 
-    <div class="gift-tag">
-      <div class="container">
-        <a href="#" v-for="item in tags" class="item">{{ item.name }}</a>
-      </div>
-    </div>
+    <section class="gift-tag">
+      <swipe :auto="0" :showIndicators="false" :prevent="true">
+        <swipe-item v-for="tag in tags">
+          <div class="container">
+            <a href="#" v-for="item in tag" class="item">{{ item.name }}</a>
+
+          </div>
+        </swipe-item>
+      </swipe>
+    </section>
+
 
     <section
-    v-infinite-scroll="loadMore"
-    infinite-scroll-disabled="loading"
-    infinite-scroll-distance="60"
-    >
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="loading"
+      infinite-scroll-distance="60">
 
       <div class="gift-issue" v-for="item in issues" >
-      <div class="issue-item" >
+        <div class="issue-item" >
         <div class="title">
           <h1>{{ item.title}}</h1>
         </div>
@@ -66,13 +71,9 @@
 
       </div>
 
-    </div>
+      </div>
     </section>
     <p class="loadmore" v-show="loading"><span>正在努力加载中...</span></p>
-
-
-
-
 
 
   </div>
@@ -112,17 +113,16 @@ export default {
         { id: 'wenjuqiapian', name: '文具卡片'}]
       ],
       tags: [
-        { id: 1, name: '表白'},
+        [{ id: 1, name: '表白'},
         { id: 1, name: '浪漫'},
         { id: 1, name: '表白浪漫'},
         { id: 1, name: '浪漫'},
+        { id: 1, name: '表白'}],
+        [{ id: 1, name: '浪漫浪漫'},
         { id: 1, name: '表白'},
         { id: 1, name: '浪漫浪漫'},
         { id: 1, name: '表白'},
-        { id: 1, name: '浪漫浪漫'},
-        { id: 1, name: '表白'},
-        { id: 1, name: '浪漫浪漫'},
-        { id: 1, name: '表白'}
+        { id: 1, name: '浪漫浪漫'}]
       ],
       issues: [
         {
@@ -316,7 +316,8 @@ export default {
   background-color: white;
   margin-top: 20px;
   font-size: 24px;
-  padding: 20px 28px;
+  padding: 0 28px;
+  height: 76px;
 
 }
 .gift-tag .container {
@@ -324,6 +325,8 @@ export default {
   white-space: nowrap;
   overflow-x: auto;
   align-items: center;
+  justify-content: space-between;
+  height: 100%;
 }
 .gift-tag .item {
   color: #ddb63f;

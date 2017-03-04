@@ -29,6 +29,7 @@ export default {
 body {
   background-color: #f5f5f5;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 * {
