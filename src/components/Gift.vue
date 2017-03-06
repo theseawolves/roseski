@@ -8,7 +8,7 @@
       <swipe :auto="0">
         <swipe-item v-for="category in categories">
           <a href="#" class="container">
-            <div v-for="item in category" class="item">
+            <div v-for="item in category" class="item" @click.stop.prevent="handleCategory(item)">
               <svg class="icon" aria-hidden="true">
                 <use v-bind="{'xlink:href':'#icon-' + item.id}"></use>
               </svg>
@@ -223,7 +223,7 @@ export default {
     SwipeItem
   },
   methods: {
-    loadMore() {
+    loadMore () {
       this.loading = true
       console.log("start.....")
       setTimeout(() => {
@@ -262,6 +262,9 @@ export default {
         console.log("end.....")
       }, 1500)
 
+    },
+    handleCategory (item) {
+      this.$router.push({ name:'category',query: item})
     }
   },
   mounted () {
