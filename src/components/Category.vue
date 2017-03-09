@@ -55,8 +55,42 @@
   <section class="filter-modal"
   :class="{'open': showCategory || showSort}"
   @click="handleModal">
+  </section>
+
+  <section
+    class="category-list"
+    v-infinite-scroll="loadMore"
+    infinite-scroll-disabled="loading"
+    infinite-scroll-distance="60">
+
+    <section class="category-container" v-for="category in categories">
+      <section class="img-container">
+        <img :src="category.image" alt="" />
+      </section>
+      <section class="main-container">
+        <section class="main-line">
+          <h3>{{category.name}}</h3>
+        </section>
+        <section class="main-line">
+          <div class="">
+            <span>{{category.campaignName}}</span>
+          </div>
+        </section>
+        <section class="main-line">
+          <a href="#" class="tag">#{{category.tagName}}</a>
+        </section>
+        <section class="main-line">
+          <div class="">
+            <strong><span>￥</span>{{category.price}}</strong>
+            <del>￥100</del>
+          </div>
+        </section>
+      </section>
+    </section>
 
   </section>
+  <p class="loadmore" v-show="loading"><span>正在努力加载中...</span></p>
+
 </div>
 </template>
 
@@ -65,6 +99,29 @@ export default {
   name: 'Category',
   data () {
     return {
+      loading: false,
+      categories: [
+        {
+          id: "6",
+          name: "春暖花开生日蛋糕",
+          price: "218",
+          image: '',
+          campaignId: "2",
+          campaignName: "第二期 浪漫礼物送给她，天天都过情人节",
+          tagId: "2",
+          tagName: "表白"
+        },
+        {
+          id: "4",
+          name: "井口满天星花束",
+          price: "198",
+          image: '',
+          campaignId: "2",
+          campaignName: "第二期 浪漫礼物送给她，天天都过情人节",
+          tagId: "2",
+          tagName: "表白"
+        }
+      ],
       categorySelected: '全部分类',
       sortSelected: '按热度排序',
       showCategory: false,
@@ -100,7 +157,28 @@ export default {
     handleModal () {
       this.showCategory = false
       this.showSort = false
+    },
+    loadMore () {
+      this.loading = true
+      console.log("start.....")
+      setTimeout(() => {
+        var data = {
+          id: "4",
+          name: "井口满天星花束",
+          price: "198",
+          image: null,
+          campaignId: "2",
+          campaignName: "第二期 浪漫礼物送给她，天天都过情人节",
+          tagId: "2",
+          tagName: "表白"
+        }
+        this.categories.push(data)
+        this.loading = false
+        console.log("end.....")
+      }, 1500)
+
     }
+
   }
 }
 </script>
@@ -110,6 +188,7 @@ export default {
   position: sticky;
   top: 0;
   z-index: 1000;
+  margin-bottom: 120px;
 }
 .category-header {
   height: 88px;
@@ -166,7 +245,7 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  top: 100%;
+  top: 166px;
   width: 100%;
   background-color: white;
   z-index: 3;
@@ -179,7 +258,7 @@ export default {
 }
 .filter-extend li {
   height: 100px;
-  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
   font-size: 24px;
   display: flex;
   align-items: center;
@@ -209,4 +288,49 @@ export default {
   opacity: 1;
   visibility: visible;
 }
+.loadmore {
+  color: #999;
+  text-align: center;
+  line-height: 3;
+  font-size: 26px;
+}
+.category-list {
+  background-color: white;
+}
+.category-container {
+  display: flex;
+}
+.img-container {
+  width: 240px;
+  height: 238px;
+  padding: 30px 20px;
+  background-color: #ddd;
+  background-clip: content-box;
+}
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+}
+.main-line a {
+  color: #ddb63f;
+  font-size: 22px;
+}
+.main-line h3 {
+  font-size: 30px;
+}
+.main-line span {
+  color: #666;
+  font-size: 22px;
+}
+.main-line  strong {
+  font-size: 32px;
+  color: #f60;
+}
+.main-line  strong > span {
+  font-size: 22px;
+  color: #f60;
+}
+
 </style>
