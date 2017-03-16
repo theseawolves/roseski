@@ -212,6 +212,8 @@ export default {
 }
 .category-header .category-header-center {
   text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .filter-header {

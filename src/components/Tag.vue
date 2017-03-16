@@ -142,5 +142,7 @@ export default {
 }
 .tag-header .tag-header-center {
   text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

@@ -23,10 +23,7 @@
       <swipe :auto="0" :showIndicators="false">
         <swipe-item v-for="tag in tags">
           <div class="container">
-            <a href="javascript:void(0)" v-for="item in tag" class="item"
-              @click.stop.prevent="handleTag(item)">
-              {{ item.name }}
-            </a>
+            <router-link v-for="item in tag" :to="{name:'tag',query:{id:item.id,name:item.name}}" class="item">#{{ item.name }}</router-link>
           </div>
         </swipe-item>
       </swipe>
@@ -46,29 +43,30 @@
         <div class="subtitle">
           <span class="line"></span>
           <div class="text">
-            <a href="#" class="tag">#{{ item.tag }}</a>
+            <router-link :to="{name:'tag',query:{id:item.tagId,name:item.tag}}" class="tag">#{{ item.tag }}</router-link>
             <span class="date">{{ item.date }}</span>
           </div>
           <span class="line"></span>
         </div>
 
-
-        <a class="larger" href="#">
+        <router-link :to="{name:'detail',query:{id:item.commodityId,name:item.commodityTitle}}" class="larger">
           <img :src="item.commodityImg" alt="" />
           <div class="desc">
             <span class="title">{{ item.commodityTitle }}</span>
             <span class="price">￥{{ item.commodityPrice }}</span>
           </div>
-        </a>
+
+        </router-link>
+
 
         <div class="tiny-body">
-          <a class="tiny" href="#" v-for="tiny in item.tinyList">
+          <router-link :to="{name:'detail',query:{id:tiny.commodityId,name:tiny.commodityTitle}}" class="tiny" v-for="tiny in item.tinyList">
             <img :src="tiny.commodityImg" alt="" />
             <div class="desc">
               <span class="title">{{ tiny.commodityTitle }}</span>
               <span class="price">￥{{ tiny.commodityPrice }}</span>
             </div>
-          </a>
+          </router-link>
         </div>
 
       </div>
@@ -267,10 +265,6 @@ export default {
     },
     handleCategory (item) {
       this.$router.push({ name:'category',query: item})
-    },
-    handleTag (item) {
-      console.log(item)
-      this.$router.push({ name:'tag',query: item})
     }
   },
   mounted () {
@@ -386,12 +380,12 @@ export default {
 }
 .gift-issue .larger > img {
   height: 600px;
-  background-color: #ccc;
+  background-color: #ddd;
   width: 100%;
 
 }
 .gift-issue .tiny > img {
- background-color: #ccc;
+ background-color: #ddd;
  height: 200px;
  width: 220px;
 }
