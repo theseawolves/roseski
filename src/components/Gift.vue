@@ -20,11 +20,13 @@
     </section>
 
     <section class="gift-tag">
-      <swipe :auto="0" :showIndicators="false" :prevent="true">
+      <swipe :auto="0" :showIndicators="false">
         <swipe-item v-for="tag in tags">
           <div class="container">
-            <a href="#" v-for="item in tag" class="item">{{ item.name }}</a>
-
+            <a href="javascript:void(0)" v-for="item in tag" class="item"
+              @click.stop.prevent="handleTag(item)">
+              {{ item.name }}
+            </a>
           </div>
         </swipe-item>
       </swipe>
@@ -265,6 +267,10 @@ export default {
     },
     handleCategory (item) {
       this.$router.push({ name:'category',query: item})
+    },
+    handleTag (item) {
+      console.log(item)
+      this.$router.push({ name:'tag',query: item})
     }
   },
   mounted () {
