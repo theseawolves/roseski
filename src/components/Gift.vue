@@ -53,7 +53,9 @@
           <img :src="item.commodityImg" alt="" />
           <div class="desc">
             <span class="title">{{ item.commodityTitle }}</span>
-            <span class="price">￥{{ item.commodityPrice }}</span>
+            <section class="price">
+              <span><i>￥</i>{{item.commodityPrice}}</span>
+            </section>
           </div>
 
         </router-link>
@@ -64,7 +66,9 @@
             <img :src="tiny.commodityImg" alt="" />
             <div class="desc">
               <span class="title">{{ tiny.commodityTitle }}</span>
-              <span class="price">￥{{ tiny.commodityPrice }}</span>
+              <section class="price">
+                <span><i>￥</i>{{tiny.commodityPrice}}</span>
+              </section>
             </div>
           </router-link>
         </div>
@@ -346,6 +350,11 @@ export default {
   font-size: 24px;
   padding-top: 39px;
   text-align: center;
+}
+.gift-issue h1 {
+  padding: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
 }
 .gift-issue .issue-item {
@@ -355,7 +364,7 @@ export default {
   display: flex;
   align-items: center;
   color: #999;
-  padding: 7px 40px;
+  padding: 10px 40px;
 
 }
 .gift-issue .subtitle > * {
@@ -368,8 +377,12 @@ export default {
   height: 0;
   border: 1px solid #ddd;
 }
+.gift-issue .subtitle {
+  font-weight: 600;
+}
 .gift-issue .subtitle .tag {
   color: #ddb63f;
+  margin-right: 20px;
 }
 
 .gift-issue .larger {
@@ -393,6 +406,21 @@ export default {
   display: flex;
   justify-content: space-between;
   padding-top: 10px;
+  align-items: center;
+}
+.gift-issue .larger .desc > .title, .gift-issue .tiny .desc > .title {
+  font-weight: 600;
+  line-height: 65px;
+}
+.gift-issue .price span, .gift-issue .price span {
+  font-size: 32px;
+  color: #ff6000;
+  font-weight: 700;
+
+}
+.gift-issue .price span i, .gift-issue .price span i {
+  font-size: 22px;
+  font-weight: 400;
 }
 
 .gift-issue .tiny-body {

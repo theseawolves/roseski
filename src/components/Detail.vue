@@ -70,7 +70,7 @@
     <section class="related">
       <h3>更多浪漫</h3>
       <section class="wrap">
-        <router-link  :to="{name:'detail'}" v-for="i in 4" class="item">
+        <router-link  :to="{name:'detail',query:{id:i,name:'标题标题标题标题'+i}}" v-for="i in 4" class="item">
           <header>
             <img src="" alt="" />
           </header>
@@ -225,7 +225,7 @@ export default {
   line-height: 68px;
   font-size: 30px;
   color: #333;
-  margin-bottom: 20px;
+  //margin-bottom: 20px;
 }
 .detail .related .wrap > a.item {
   display: inline-block;

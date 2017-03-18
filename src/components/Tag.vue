@@ -31,22 +31,26 @@
         </div>
 
 
-        <a class="larger" href="#">
+        <router-link :to="{name:'detail',query:{id:item.commodityId,name:item.commodityTitle}}" class="larger">
           <img :src="item.commodityImg" alt="" />
           <div class="desc">
             <span class="title">{{ item.commodityTitle }}</span>
-            <span class="price">￥{{ item.commodityPrice }}</span>
+            <section class="price">
+              <span><i>￥</i>{{item.commodityPrice}}</span>
+            </section>
           </div>
-        </a>
+        </router-link>
 
         <div class="tiny-body">
-          <a class="tiny" href="#" v-for="tiny in item.tinyList">
+          <router-link :to="{name:'detail',query:{id:tiny.commodityId,name:tiny.commodityTitle}}" class="tiny" v-for="tiny in item.tinyList">
             <img :src="tiny.commodityImg" alt="" />
             <div class="desc">
               <span class="title">{{ tiny.commodityTitle }}</span>
-              <span class="price">￥{{ tiny.commodityPrice }}</span>
+              <section class="price">
+                <span><i>￥</i>{{tiny.commodityPrice}}</span>
+              </section>
             </div>
-          </a>
+          </router-link>
         </div>
 
       </div>

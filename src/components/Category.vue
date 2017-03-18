@@ -64,26 +64,32 @@
     infinite-scroll-distance="60">
 
     <section class="category-container" v-for="category in categories">
-      <section class="img-container">
-        <img :src="category.image" alt="" />
+      <section class="img-container" >
+        <router-link :to="{name:'detail',query:category}">
+          <img :src="category.image" alt="" />
+        </router-link>
       </section>
       <section class="main-container">
         <section class="main-line">
-          <h3>{{category.name}}</h3>
+          <router-link :to="{name:'detail',query:category}">
+            <h3>{{category.name}}</h3>
+          </router-link>
         </section>
         <section class="main-line">
-          <div class="">
+          <div class="issue">
             <span>{{category.campaignName}}</span>
           </div>
         </section>
         <section class="main-line">
-          <a href="#" class="tag">#{{category.tagName}}</a>
+          <router-link class="tag" :to="{name:'detail',query:{id:category.tagId,name:category.tagName}}">
+            #{{category.tagName}}
+          </router-link>
         </section>
         <section class="main-line">
-          <div class="">
-            <strong><span>￥</span>{{category.price}}</strong>
-            <del>￥100</del>
-          </div>
+          <section class="price">
+            <span><i>￥</i>{{category.price}}</span>
+            <del>￥200</del>
+          </section>
         </section>
       </section>
     </section>
@@ -107,7 +113,7 @@ export default {
           price: "218",
           image: '',
           campaignId: "2",
-          campaignName: "第二期 浪漫礼物送给她，天天都过情人节",
+          campaignName: "第二期 浪漫礼物送给她，天天都过情人节情人节情人节情人节",
           tagId: "2",
           tagName: "表白"
         },
@@ -241,6 +247,7 @@ export default {
   width: 22px;
   height: 22px;
   fill: #ddd;
+  margin-left: 15px;
 
 }
 .filter-extend.filter-category, .filter-extend.filter-sort {
@@ -309,30 +316,50 @@ export default {
   background-color: #ddd;
   background-clip: content-box;
 }
+.img-container > a {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
 .main-container {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 30px 20px;
 }
-.main-line a {
+.main-line .issue {
+  padding: 5px;
+  font-size: 24px;
+  color: #333;
+  line-height: 1.8;
+}
+.main-line a.tag {
   color: #ddb63f;
   font-size: 22px;
+  font-weight: 600;
+  padding: 5px;
 }
 .main-line h3 {
   font-size: 30px;
+  padding: 5px 0 10px;
 }
-.main-line span {
-  color: #666;
-  font-size: 22px;
-}
-.main-line  strong {
+
+
+.main-line .price span, .main-line .price span {
   font-size: 32px;
-  color: #f60;
+  color: #ff6000;
+  font-weight: 700;
+
 }
-.main-line  strong > span {
+.main-line .price span i, .main-line .price span i {
   font-size: 22px;
-  color: #f60;
+  font-weight: 400;
+}
+.main-line .price del, .main-line .price del {
+  font-size: 22px;
+  font-weight: 400;
+  color: #aaa;
+  margin-left: 10px;
 }
 
 </style>
