@@ -338,6 +338,7 @@ export default {
   font-size: 22px;
   font-weight: 600;
   padding: 5px;
+  margin-bottom: 10px;
 }
 .main-line h3 {
   font-size: 30px;

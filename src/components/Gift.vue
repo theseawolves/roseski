@@ -337,6 +337,8 @@ export default {
 }
 .gift-tag .item {
   color: #ddb63f;
+  font-size: 26px;
+  font-weight: bold;
 }
 .gift-tag .item:not(:last-child) {
   margin-right: 30px;
@@ -378,7 +380,7 @@ export default {
   border: 1px solid #ddd;
 }
 .gift-issue .subtitle {
-  font-weight: 600;
+  font-weight: bold;
 }
 .gift-issue .subtitle .tag {
   color: #ddb63f;
@@ -409,18 +411,18 @@ export default {
   align-items: center;
 }
 .gift-issue .larger .desc > .title, .gift-issue .tiny .desc > .title {
-  font-weight: 600;
+  font-weight: bold;
   line-height: 65px;
 }
 .gift-issue .price span, .gift-issue .price span {
   font-size: 32px;
   color: #ff6000;
-  font-weight: 700;
+  font-weight: bold;
 
 }
 .gift-issue .price span i, .gift-issue .price span i {
   font-size: 22px;
-  font-weight: 400;
+  font-weight: bold;
 }
 
 .gift-issue .tiny-body {

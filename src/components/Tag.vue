@@ -24,7 +24,7 @@
         <div class="subtitle">
           <span class="line"></span>
           <div class="text">
-            <a href="#" class="tag">#{{ item.tag }}</a>
+            <router-link :to="{name:'tag',query:{id:item.tagId,name:item.tag}}" class="tag">#{{ item.tag }}</router-link>
             <span class="date">{{ item.date }}</span>
           </div>
           <span class="line"></span>
